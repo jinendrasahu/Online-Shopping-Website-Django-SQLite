@@ -1,0 +1,106 @@
+{% extends 'shop/basic.html' %}
+{% block title %}Checkout {% endblock %}
+{% block body %} 
+<div class="container my-4">
+    <h4>Track Your Order - Enter Your Tracker Id and Email</h4>
+    <form method="POST"  id="trackerform">
+        {% csrf_token %}
+        <div class="row">
+        <div class="form-group col-md-6">
+            <label for="orderid">Order Id : </label>
+            <input id="orderid" name="orderid" placeholder="Enter Your Order Id" type="number" class="form-control">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="email">Email :</label>
+            <input id="email" name="email" placeholder="Enter Your Email" type="email" class="form-control">
+        </div>
+    </div>
+        <div class="form-group">
+            <button id="submit" class="my-4 btn-primary btn"  type="submit">Track</button>
+        </div>
+    </form>
+    <h4>Your Order Updates:</h4>
+    <p id="items"></p>
+    <h4>Order Details:</h4>
+    <div id="cartitem"></div>
+</div>
+{% endblock %}
+{% block js%}
+<script>
+
+var cart;
+if(localStorage.getItem('cart')==null){
+
+  cart={};
+}else{
+cart=JSON.parse(localStorage.getItem('cart'));
+updatecart(cart);
+}
+
+function updatecart(cart){
+  localStorage.setItem('cart',JSON.stringify(cart));
+  var sum=0;
+  for(item in cart){
+    sum=sum+cart[item][0];
+  }
+  document.getElementById("cart").innerHTML=sum;
+}
+document.getElementById("items").innerHTML=
+'<p  class="px-4 d-inline-flex rounded border border-secondary">Order Update is not available</p><br>';
+document.getElementById("cartitem").innerHTML=
+'<p  class="px-4 d-inline-flex rounded border border-secondary">Order Details is not available</p><br>';
+$('#trackerform').submit(function(event){
+    $('#items').empty();
+    var formData={
+        'orderid':$('input[name=orderid]').val(),
+        'email':$('input[name=email]').val(),
+        'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()
+    };
+    $.ajax({
+        type:"POST",
+        url:"/shop/tracker/",
+        data:formData,
+        encode:true
+    })
+    .done(function(data){
+        document.getElementById("items").innerHTML=
+'<p  class="px-4 d-inline-flex rounded border border-secondary">Order Update is not available</p><br>';
+document.getElementById("cartitem").innerHTML=
+'<p  class="px-4 d-inline-flex rounded border border-secondary">Order Details is not available</p><br>';
+
+       var  data=JSON.parse(data);
+        updates=data[0];
+        if(updates!=undefined){
+        if(updates.length>0 & updates!={})
+        {
+            document.getElementById("items").innerHTML="";
+        for(i=0;i<updates.length;i++){
+            let text=updates[i]['text'];
+            let time=updates[i]['time'];
+         mystr='<p style="padding-left: 1em;" class="d-inline-flex rounded border border-secondary">'+text+'<span style="margin-left: 3em;" class="px-2 rounded btn-success">'+time+'</span></p><br>';
+         $("#items").append(mystr);
+        }
+        cartpro=JSON.parse(data[1]);
+        
+        document.getElementById("cartitem").innerHTML="";
+
+        for(item in cartpro){
+    document.getElementById("cartitem").innerHTML+=
+    '<p style="padding-left: 1em;" class="d-inline-flex rounded border border-secondary">'+cartpro[item][1]+'<span style="margin-left: 3em;" class="px-2 rounded btn-success">'+cartpro[item][0]+'</span></p><br>';
+  }
+    }else{
+        document.getElementById("items").innerHTML='<p  class="px-4 d-inline-flex rounded border border-secondary">Order Update is not available</p><br>';
+     
+    }
+}
+}).fail(function(err){
+    document.getElementById("items").innerHTML=
+'<p  class="px-4 d-inline-flex rounded border border-secondary">Order Update is not available</p><br>';
+document.getElementById("cartitem").innerHTML=
+'<p  class="px-4 d-inline-flex rounded border border-secondary">Order Details is not available</p><br>';
+
+});
+    event.preventDefault();
+})
+</script>
+{% endblock%} 

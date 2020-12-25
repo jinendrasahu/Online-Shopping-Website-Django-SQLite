@@ -1,0 +1,59 @@
+{% extends 'shop/basic.html' %}
+{% block title %}This is Contact {% endblock %}
+{% block body %} 
+<div class="container">
+    <h1>Contact Us</h1>
+    <form method="POST" action="/shop/contactus/">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="name">Name : </label>
+            <input id="name" name="name" placeholder="Enter Your Name" type="text" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="email">Email :</label>
+            <input id="email" name="email" placeholder="Enter Your Email" type="email" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone :</label>
+            <input id="phone" name="phone" placeholder="Enter Your Phone Number" type="number" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="address">Description :</label>
+            <textarea rows="3" name="msg" id="address"  class="form-control"></textarea>
+           
+        </div>
+        <div class="form-group">
+            <button id="submit" class="my-4 btn-primary btn"  type="submit">Submit</button>
+        </div>
+      
+    </form>
+</div>
+
+{% endblock %}
+{% block js%}
+<script>
+ var a="{{thanks}}";
+    if(a){
+     alert("Thank you to contact us!");
+     document.location="/shop/contactus/";
+    }
+var cart;
+if(localStorage.getItem('cart')==null){
+
+  cart={};
+}else{
+cart=JSON.parse(localStorage.getItem('cart'));
+updatecart(cart);
+}
+
+function updatecart(cart){
+  localStorage.setItem('cart',JSON.stringify(cart));
+  var sum=0;
+  for(item in cart){
+    sum=sum+cart[item][0];
+  }
+  document.getElementById("cart").innerHTML=sum;
+}
+
+</script>
+{% endblock%} 

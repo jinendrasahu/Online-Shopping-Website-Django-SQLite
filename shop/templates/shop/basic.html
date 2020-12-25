@@ -1,0 +1,90 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %} {% endblock %}
+
+    </title>
+    <style>
+        .card-img-top{
+            height: 200px;
+        }
+        .col-md-3{
+            display: inline-block;
+            padding-top: 40px;
+            margin-left:-4px;
+            padding-left: 40px;
+        }
+        .nopad{
+            padding-left: 0;
+            padding-right: 0;
+        }
+       .carousel-control-next-icon,
+       .carousel-control-prev-icon{
+background-color: blue;
+       }
+       .btn-group {
+  font-size: 12px; /*or whatever size */
+}
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Navbar</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/shop">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/shop/aboutus">About Us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/shop/contactus">Contact Us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/shop/tracker">Tracker</a>
+              </li>
+              
+             
+              
+            </ul>
+            <ul class="navbar-nav mb-2 mb-lg-0">
+           <li> <form method="GET" action="/shop/search/" class="d-flex">
+              <input id="search" name="search" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="me-2 btn btn-outline-success" type="submit">Search</button>
+            </form>
+          </li><li>
+            
+   <button   type="button" data-html="true" data-trigger="focus" data-container="body" id="popove" data-placement="left"  data-toggle="popover" title="Cart items in your Shopping list" data-content="body of po"  class="btn btn-outline-primary bg-white">Cart(<span id="cart">0</span>)</button>
+          </li></ul>
+           
+          </div>
+        </div>
+      </nav>
+      {% block body %} {% endblock %}
+      
+      
+     
+      <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script>
+      $(function () {
+    $('[data-toggle="popover"]').popover()
+  });
+  $(function () {
+    $('.example-popover').popover({
+      container: 'body'
+    });
+  });
+  </script>  
+      {% block js %} {% endblock %}
+    </body>
+    </html>

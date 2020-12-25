@@ -1,0 +1,40 @@
+{% extends 'shop/basic.html' %}
+{% block title %}This is About {% endblock %}
+{% block body %} 
+<div class="container">
+    <h1 class="my-4">About The Developer:</h1>
+    <div class="row">
+    <div class="col-md-4">
+    <img src="/media/shop/images/jinendra.jpg" style="height: 300px;width: 200px;">
+</div>
+<div class="col-md-4 my-4">
+    <h5>Name : Jinendra Kumar Sahu</h5>
+    <h5>Contact : 1234-5678-90</h5>
+    <h5>Email : jinendrasahu@gmail.com</h5>
+</div>
+</div>
+</div>
+{% endblock %}
+{% block js%}
+<script>
+
+var cart;
+if(localStorage.getItem('cart')==null){
+
+  cart={};
+}else{
+cart=JSON.parse(localStorage.getItem('cart'));
+updatecart(cart);
+}
+
+function updatecart(cart){
+  localStorage.setItem('cart',JSON.stringify(cart));
+  var sum=0;
+  for(item in cart){
+    sum=sum+cart[item][0];
+  }
+  document.getElementById("cart").innerHTML=sum;
+}
+
+</script>
+{% endblock%} 
